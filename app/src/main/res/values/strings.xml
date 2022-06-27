@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Klima</string>
+    <string name="place">Barreira, CE</string>
+    <string name="place_description">Botão para pesquisar sobre a previsão do tempo</string>
+    <string name="settings_description">Botão para acessar as configurações do aplicativo</string>
+    <string name="day_rain">Dia chuvoso</string>
 </resources>
