@@ -3,26 +3,23 @@ package com.posart.klima
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.posart.klima.ui.theme.KlimaTheme
@@ -40,40 +37,21 @@ class DashboardActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun App() {
+
+        var fieldVisible by remember { mutableStateOf(false) }
+        var fieldValue by remember { mutableStateOf("") }
+
         Scaffold(
             modifier = Modifier
                 .background(color = MaterialTheme.colorScheme.surface),
             topBar = {
-                SmallTopAppBar(
-                    title = { Text(
-                        text = stringResource(R.string.place),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        )
+                TopAppBar(
+                    onNavigationItemClick = {
+                        fieldVisible = !fieldVisible
                     },
-                    navigationIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                contentDescription = stringResource(R.string.place_description),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.Settings,
-                                contentDescription = stringResource(R.string.settings_description),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.CalendarMonth,
-                                contentDescription = stringResource(R.string.calendar_description),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                    title = fieldValue,
+                    onShowTextField = {
+                        if (fieldVisible) Icons.Filled.Close else Icons.Filled.Search
                     }
                 )
             }
@@ -83,6 +61,48 @@ class DashboardActivity : ComponentActivity() {
                     .padding(padding)
                     .verticalScroll(rememberScrollState()),
             ) {
+                AnimatedVisibility(
+                    visible = fieldVisible
+                ) {
+                    TextField(
+                        modifier = Modifier
+                            .padding(horizontal = dimensionResource(R.dimen.normal))
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(
+                            topStart = dimensionResource(R.dimen.normal),
+                            topEnd = dimensionResource(R.dimen.normal)
+                        ),
+                        value = fieldValue,
+                        onValueChange = { text ->
+                            fieldValue = text
+                        },
+                        placeholder = {
+                            Text(
+                                text = stringResource(R.string.place),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                    alpha = 0.61f
+                                )
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.titleLarge,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+
+                        ),
+                        trailingIcon = {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Search,
+                                    contentDescription = stringResource(R.string.place_description),
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
+                            }
+                        },
+                        singleLine = true,
+                    )
+                }
                 ForecastToday(
                     modifier = Modifier
                         .padding(top = dimensionResource(R.dimen.large))
@@ -117,6 +137,49 @@ class DashboardActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun TopAppBar(
+        onNavigationItemClick: () -> Unit,
+        title: String,
+        onShowTextField: () -> ImageVector
+    ) {
+        SmallTopAppBar(
+            title = {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            },
+            navigationIcon = {
+                IconButton(
+                    onClick = onNavigationItemClick
+                ) {
+                    Icon(
+                        imageVector = onShowTextField(),
+                        contentDescription = stringResource(R.string.place_description),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = stringResource(R.string.settings_description),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.CalendarMonth,
+                        contentDescription = stringResource(R.string.calendar_description),
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        )
     }
 
     @Composable
