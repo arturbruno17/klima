@@ -7,4 +7,9 @@
     <string name="wind_speed">Velocidade do vento</string>
     <string name="calendar_description">Botão para acessar a previsão dos próximos 7 dias</string>
     <string name="close_field">Fechar campo de texto</string>
+    <string name="settings">Configurações</string>
+    <string name="back_to_previous_screen">Voltar para tela anterior</string>
+    <string name="unit_system">Sistema de unidade</string>
+    <string name="imperial">Imperial</string>
+    <string name="metric">Métrico</string>
 </resources>
