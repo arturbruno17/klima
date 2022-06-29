@@ -176,7 +176,11 @@ class DashboardActivity : ComponentActivity() {
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    startActivity(
+                        Intent(this@DashboardActivity, ForecastDailyActivity::class.java)
+                    )
+                }) {
                     Icon(
                         imageVector = Icons.Filled.CalendarMonth,
                         contentDescription = stringResource(R.string.calendar_description),
