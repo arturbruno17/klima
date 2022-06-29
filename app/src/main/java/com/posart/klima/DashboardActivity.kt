@@ -1,5 +1,6 @@
 package com.posart.klima
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -164,7 +165,11 @@ class DashboardActivity : ComponentActivity() {
                 }
             },
             actions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    startActivity(
+                        Intent(this@DashboardActivity, SettingsActivity::class.java)
+                    )
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Settings,
                         contentDescription = stringResource(R.string.settings_description),
