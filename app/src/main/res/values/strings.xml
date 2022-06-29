@@ -12,4 +12,6 @@
     <string name="unit_system">Sistema de unidade</string>
     <string name="imperial">Imperial</string>
     <string name="metric">Métrico</string>
+    <string name="title_activity_forecast_daily">ForecastDailyActivity</string>
+    <string name="calendar">Calendário</string>
 </resources>

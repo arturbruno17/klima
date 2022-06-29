@@ -14,6 +14,11 @@
         android:theme="@style/Theme.Klima"
         tools:targetApi="31">
         <activity
+            android:name=".ForecastDailyActivity"
+            android:exported="false"
+            android:label="@string/title_activity_forecast_daily"
+            android:theme="@style/Theme.Klima" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.Klima" />
