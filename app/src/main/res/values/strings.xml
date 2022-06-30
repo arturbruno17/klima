@@ -14,4 +14,6 @@
     <string name="metric">Métrico</string>
     <string name="title_activity_forecast_daily">ForecastDailyActivity</string>
     <string name="calendar">Calendário</string>
+    <string name="minimize">Minimizar o menu</string>
+    <string name="maximize">Expandir o menu</string>
 </resources>

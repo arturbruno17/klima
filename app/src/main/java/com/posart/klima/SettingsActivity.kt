@@ -74,7 +74,9 @@ class SettingsActivity : ComponentActivity() {
                                     painter = if (expanded) painterResource(R.drawable.ic_keyboard_arrow_up) else painterResource(
                                         R.drawable.ic_keyboard_arrow_down
                                     ),
-                                    contentDescription = ""
+                                    contentDescription = if (expanded) stringResource(R.string.minimize) else stringResource(
+                                        R.string.maximize
+                                    )
                                 )
                             }
                         },
@@ -93,6 +95,10 @@ class SettingsActivity : ComponentActivity() {
                         modifier = Modifier
                             .background(
                                 color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = RoundedCornerShape(
+                                    bottomStart = dimensionResource(R.dimen.normal),
+                                    bottomEnd = dimensionResource(R.dimen.normal)
+                                )
                             ),
                         expanded = expanded,
                         onDismissRequest = { expanded = false },
