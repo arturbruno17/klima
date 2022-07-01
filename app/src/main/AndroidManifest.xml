@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.posart.klima">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,16 +16,16 @@
         android:theme="@style/Theme.Klima"
         tools:targetApi="31">
         <activity
-            android:name=".ForecastDailyActivity"
+            android:name="com.posart.klima.ui.views.ForecastDailyActivity"
             android:exported="false"
             android:label="@string/title_activity_forecast_daily"
             android:theme="@style/Theme.Klima" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.posart.klima.ui.views.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.Klima" />
         <activity
-            android:name=".DashboardActivity"
+            android:name="com.posart.klima.ui.views.DashboardActivity"
             android:exported="true"
             android:theme="@style/Theme.Klima">
             <intent-filter>

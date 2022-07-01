@@ -1,4 +1,4 @@
-package com.posart.klima
+package com.posart.klima.ui.views
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.posart.klima.R
 import com.posart.klima.ui.theme.KlimaTheme
 
 class ForecastDailyActivity : ComponentActivity() {
