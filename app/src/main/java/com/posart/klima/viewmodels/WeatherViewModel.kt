@@ -1,20 +1,28 @@
 package com.posart.klima.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.location.Address
+import android.location.Geocoder
+import androidx.lifecycle.*
 import com.posart.klima.data.remote.entities.WeatherForecast
 import com.posart.klima.repositories.WeatherRepository
+import com.posart.klima.viewmodels.entities.LatLng
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WeatherViewModel(
+    application: Application,
     private val weatherRepository: WeatherRepository = WeatherRepository()
-): ViewModel() {
+): AndroidViewModel(application) {
 
     private var _response = MutableLiveData<WeatherForecastResponse>(WeatherForecastResponse.Loading)
     val response : LiveData<WeatherForecastResponse>
         get() = _response
+
+    private var _latLng = MutableLiveData<LatLng>()
+    val latLng : LiveData<LatLng>
+        get() = _latLng
 
 
     fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String) {
@@ -27,6 +35,22 @@ class WeatherViewModel(
                 }
             } catch (e: Exception) {
                 _response.postValue(WeatherForecastResponse.Error)
+            }
+        }
+    }
+
+    fun getLatLngFromLocation(location: String) {
+        viewModelScope.launch {
+            try {
+                var address: List<Address>
+                withContext(Dispatchers.IO) {
+                     address = Geocoder(getApplication<Application?>().applicationContext).getFromLocationName(location, 1)
+                }
+                _latLng.postValue(
+                    LatLng(address[0].latitude, address[0].longitude)
+                )
+            } catch (e: Exception) {
+                return@launch
             }
         }
     }
