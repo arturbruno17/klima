@@ -4,7 +4,7 @@
     <string name="place_description">Botão para pesquisar sobre a previsão do tempo em um determinado lugar</string>
     <string name="settings_description">Botão para acessar as configurações do aplicativo</string>
     <string name="day_rain">Dia chuvoso</string>
-    <string name="wind_speed">Velocidade do vento</string>
+    <string name="wind_speed">Vento</string>
     <string name="calendar_description">Botão para acessar a previsão dos próximos 7 dias</string>
     <string name="close_field">Fechar campo de texto</string>
     <string name="settings">Configurações</string>
@@ -16,4 +16,12 @@
     <string name="calendar">Calendário</string>
     <string name="minimize">Minimizar o menu</string>
     <string name="maximize">Expandir o menu</string>
+    <string name="humidity">Umidade</string>
+    <string name="feels_like">Sensação</string>
+    <string name="wind_direction">Direção do vento</string>
+    <string name="uvi">UV</string>
+    <string name="sunrise">Nascer do sol</string>
+    <string name="sunset">Pôr do sol</string>
+    <string name="pressure">Pressão</string>
+    <string name="clouds">Nuvens</string>
 </resources>

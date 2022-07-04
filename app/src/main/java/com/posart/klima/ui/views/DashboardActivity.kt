@@ -2,19 +2,21 @@ package com.posart.klima.ui.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +56,8 @@ class DashboardActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun App() {
+
+        val weatherForecast by viewModel.response.observeAsState()
 
         var fieldVisible by remember { mutableStateOf(false) }
         var fieldValue by remember { mutableStateOf("") }
@@ -107,7 +111,7 @@ class DashboardActivity : ComponentActivity() {
                             textColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             containerColor = MaterialTheme.colorScheme.primaryContainer,
 
-                        ),
+                            ),
                         trailingIcon = {
                             IconButton(onClick = {
                                 viewModel.getLatLngFromLocation(fieldValue)
@@ -122,37 +126,89 @@ class DashboardActivity : ComponentActivity() {
                         singleLine = true,
                     )
                 }
-                ForecastToday(
-                    modifier = Modifier
-                        .padding(top = dimensionResource(R.dimen.large))
-                        .padding(horizontal = dimensionResource(R.dimen.normal))
-                        .fillMaxWidth()
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = dimensionResource(R.dimen.normal))
-                        .padding(top = dimensionResource(id = R.dimen.normal))
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    repeat(3) {
-                        ForecastDetails()
+                weatherForecast?.let {
+                    if (it is WeatherViewModel.WeatherForecastResponse.Success) {
+
+                        ForecastToday(
+                            modifier = Modifier
+                                .padding(top = dimensionResource(R.dimen.large))
+                                .padding(horizontal = dimensionResource(R.dimen.normal))
+                                .fillMaxWidth(),
+                            it.weatherForecast.currentForecast.temperature.toString()
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(R.dimen.normal))
+                                .padding(top = dimensionResource(id = R.dimen.normal))
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+
+                            ForecastDetails(
+                                R.drawable.wind_speed,
+                                R.string.wind_speed,
+                                it.weatherForecast.currentForecast.windSpeed.toString()
+                            )
+
+                            ForecastDetails(
+                                R.drawable.humidity,
+                                R.string.humidity,
+                                it.weatherForecast.currentForecast.humidity.toString()
+                            )
+
+                            ForecastDetails(
+                                R.drawable.humidity,
+                                R.string.feels_like,
+                                it.weatherForecast.currentForecast.feelsLike.toString()
+                            )
+
+                        }
+
+                        LazyRow(
+                            contentPadding = PaddingValues(dimensionResource(id = R.dimen.normal)),
+                            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.normal))
+                        ) {
+                            items(it.weatherForecast.hourlyForecast) { item ->
+                                ForecastHourly(
+                                    item.temperature.toString(),
+                                    item.dateTime.toString()
+                                )
+                            }
+                        }
+
+                        ForecastAdditionalDetails(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(R.dimen.normal))
+                                .padding(bottom = dimensionResource(R.dimen.normal)),
+                            it.weatherForecast.currentForecast.windDeg.toString(),
+                            R.string.wind_direction,
+                            it.weatherForecast.currentForecast.uvi.toString(),
+                            R.string.uvi
+                        )
+
+                        ForecastAdditionalDetails(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(R.dimen.normal))
+                                .padding(bottom = dimensionResource(R.dimen.normal)),
+                            it.weatherForecast.currentForecast.sunrise.toString(),
+                            R.string.sunrise,
+                            it.weatherForecast.currentForecast.sunset.toString(),
+                            R.string.sunset
+                        )
+
+                        ForecastAdditionalDetails(
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(R.dimen.normal))
+                                .padding(bottom = dimensionResource(R.dimen.normal)),
+                            it.weatherForecast.currentForecast.pressure.toString(),
+                            R.string.pressure,
+                            it.weatherForecast.currentForecast.clouds.toString(),
+                            R.string.clouds
+                        )
+
                     }
-                }
-                LazyRow(
-                    contentPadding = PaddingValues(dimensionResource(id = R.dimen.normal)),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.normal))
-                ) {
-                    items(10) {
-                        ForecastHourly()
-                    }
-                }
-                repeat(3) {
-                    ForecastAdditionalDetails(
-                        modifier = Modifier
-                            .padding(horizontal = dimensionResource(R.dimen.normal))
-                            .padding(bottom = dimensionResource(R.dimen.normal))
-                    )
+
                 }
             }
         }
@@ -210,7 +266,10 @@ class DashboardActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun ForecastToday(modifier: Modifier =  Modifier) {
+    private fun ForecastToday(
+        modifier: Modifier = Modifier,
+        value: String
+    ) {
         Row(
             modifier = modifier
                 .clip(shape = RoundedCornerShape(size = dimensionResource(R.dimen.normal)))
@@ -231,7 +290,7 @@ class DashboardActivity : ComponentActivity() {
                     verticalAlignment = Alignment.Top
                 ) {
                     Text(
-                        text = "23",
+                        text = value,
                         style = MaterialTheme.typography.displayLarge.copy(
                             fontWeight = FontWeight.Bold
                         ),
@@ -253,7 +312,11 @@ class DashboardActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ForecastDetails() {
+    fun ForecastDetails(
+        @DrawableRes imageId: Int,
+        @StringRes description: Int,
+        value: String,
+    ) {
         Column(
             modifier = Modifier
                 .background(
@@ -270,16 +333,16 @@ class DashboardActivity : ComponentActivity() {
             Image(
                 modifier = Modifier
                     .size(48.dp),
-                painter = painterResource(id = R.drawable.wind_speed),
-                contentDescription = stringResource(R.string.wind_speed),
+                painter = painterResource(id = imageId),
+                contentDescription = stringResource(description),
             )
             Text(
-                text = "23m/s",
+                text = value,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = "Wind",
+                text = stringResource(id = description),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.81f)
             )
@@ -287,7 +350,10 @@ class DashboardActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ForecastHourly() {
+    fun ForecastHourly(
+        temperature: String,
+        time: String
+    ) {
         Column(
             modifier = Modifier
                 .background(
@@ -302,12 +368,12 @@ class DashboardActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "14h",
+                text = temperature,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.81f)
             )
             Text(
-                text = "25ºC",
+                text = time,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
@@ -315,7 +381,13 @@ class DashboardActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ForecastAdditionalDetails(modifier: Modifier = Modifier) {
+    fun ForecastAdditionalDetails(
+        modifier: Modifier = Modifier,
+        firstValue: String,
+        @StringRes firstDescription: Int,
+        secondValue: String,
+        @StringRes secondDescription: Int
+    ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -333,12 +405,12 @@ class DashboardActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "320º",
+                    text = firstValue,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
-                    text = "Wind direction",
+                    text = stringResource(firstDescription),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.81f)
                 )
@@ -350,12 +422,12 @@ class DashboardActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "4.57",
+                    text = secondValue,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
-                    text = "UV",
+                    text = stringResource(secondDescription),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.81f)
                 )
@@ -378,7 +450,8 @@ class DashboardActivity : ComponentActivity() {
         KlimaTheme(dynamicColor = false) {
             ForecastToday(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                "23"
             )
         }
     }
@@ -387,7 +460,11 @@ class DashboardActivity : ComponentActivity() {
     @Composable
     fun ForecastDetailsPreview() {
         KlimaTheme(dynamicColor = false) {
-            ForecastDetails()
+            ForecastDetails(
+                R.drawable.wind_speed,
+                R.string.wind_speed,
+                "23m/s"
+            )
         }
     }
 
@@ -395,7 +472,10 @@ class DashboardActivity : ComponentActivity() {
     @Composable
     fun ForecastHourlyPreview() {
         KlimaTheme(dynamicColor = false) {
-            ForecastHourly()
+            ForecastHourly(
+                "25ºC",
+                "15h"
+            )
         }
     }
 
@@ -403,7 +483,15 @@ class DashboardActivity : ComponentActivity() {
     @Composable
     fun ForecastAdditionalDetailsPreview() {
         KlimaTheme(dynamicColor = false) {
-            ForecastAdditionalDetails()
+            ForecastAdditionalDetails(
+                modifier = Modifier
+                    .padding(horizontal = dimensionResource(R.dimen.normal))
+                    .padding(bottom = dimensionResource(R.dimen.normal)),
+                "5:32",
+                R.string.sunrise,
+                "17:53",
+                R.string.sunset
+            )
         }
     }
 }
