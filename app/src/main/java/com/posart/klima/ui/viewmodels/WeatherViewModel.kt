@@ -1,4 +1,4 @@
-package com.posart.klima.viewmodels
+package com.posart.klima.ui.viewmodels
 
 import android.app.Application
 import android.location.Address
@@ -6,7 +6,7 @@ import android.location.Geocoder
 import androidx.lifecycle.*
 import com.posart.klima.data.remote.entities.WeatherForecast
 import com.posart.klima.repositories.WeatherRepository
-import com.posart.klima.viewmodels.entities.LatLng
+import com.posart.klima.ui.entities.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -2,6 +2,7 @@ package com.posart.klima.ui.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
@@ -27,16 +28,43 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.posart.klima.R
+import com.posart.klima.UNIT_SYSTEM
+import com.posart.klima.UnitSystem
+import com.posart.klima.dataStore
 import com.posart.klima.ui.theme.KlimaTheme
-import com.posart.klima.viewmodels.WeatherViewModel
+import com.posart.klima.ui.viewmodels.WeatherViewModel
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class DashboardActivity : ComponentActivity() {
 
     private lateinit var viewModel: WeatherViewModel
+    private lateinit var unitSystem: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                dataStore.data.map { preferences ->
+                    preferences[UNIT_SYSTEM]
+                }.collect {
+                    it?.let {
+                        Log.i("UNIT_SYSTEM", it)
+                        unitSystem = it
+                        return@collect
+                    }
+                    dataStore.edit { settings ->
+                        settings[UNIT_SYSTEM] = UnitSystem.METRIC.value
+                    }
+                }
+            }
+        }
 
         viewModel = WeatherViewModel(
             application
