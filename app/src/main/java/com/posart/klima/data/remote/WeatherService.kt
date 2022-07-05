@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 interface WeatherService {
 
-    suspend fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String): WeatherForecast?
+    suspend fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String, unitSystem: String): WeatherForecast?
 
     companion object {
         fun create(): WeatherService {

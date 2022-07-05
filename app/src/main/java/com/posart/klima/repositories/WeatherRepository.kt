@@ -8,9 +8,9 @@ class WeatherRepository(
     private val weatherService: WeatherService = WeatherService.create()
 ) {
 
-    suspend fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String) =
+    suspend fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String, unitSystem: String) =
         withContext(Dispatchers.IO) {
-            weatherService.getWeatherForecast(lat, lon, excludedParts)
+            weatherService.getWeatherForecast(lat, lon, excludedParts, unitSystem)
         }
 
 }

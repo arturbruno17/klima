@@ -77,7 +77,7 @@ class DashboardActivity : ComponentActivity() {
         }
 
         viewModel.latLng.observe(this) {
-            viewModel.getWeatherForecast(it.lat, it.lon, "minutely,alerts")
+            viewModel.getWeatherForecast(it.lat, it.lon, "minutely,alerts", unitSystem)
         }
     }
 

@@ -17,6 +17,7 @@ class WeatherServiceImpl(
         lat: Double,
         lon: Double,
         excludedParts: String,
+        unitSystem: String
     ): WeatherForecast? {
         return try {
             client.get(HttpRoutes.WEATHER_FORECAST_URL) {
@@ -25,6 +26,7 @@ class WeatherServiceImpl(
                     parameters.append("lon", lon.toString())
                     parameters.append("exclude", excludedParts)
                     parameters.append("appid", BuildConfig.API_KEY)
+                    parameters.append("units", unitSystem)
                 }
             }.body()
         } catch (e: RedirectResponseException) {

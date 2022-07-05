@@ -25,10 +25,10 @@ class WeatherViewModel(
         get() = _latLng
 
 
-    fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String) {
+    fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String, unitSystem: String) {
         viewModelScope.launch {
             try {
-                val weatherForecast = weatherRepository.getWeatherForecast(lat, lon, excludedParts)
+                val weatherForecast = weatherRepository.getWeatherForecast(lat, lon, excludedParts, unitSystem)
                 checkNotNull(weatherForecast)
                 weatherForecast.let {
                     _response.postValue(WeatherForecastResponse.Success(it))
