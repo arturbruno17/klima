@@ -4,19 +4,19 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeatherForecast(
+data class WeatherForecastNetwork(
     val lat: Double,
     val lon: Double,
     val timezone: String,
     @SerialName("timezone_offset") val timezoneOffset: Int,
-    @SerialName("current") val currentForecast: CurrentForecast,
-    @SerialName("hourly") val hourlyForecast: List<HourlyForecast>,
-    @SerialName("daily") val dailyForecast: List<DailyForecast>
+    @SerialName("current") val currentForecast: CurrentForecastNetwork,
+    @SerialName("hourly") val hourlyForecast: List<HourlyForecastNetwork>,
+    @SerialName("daily") val dailyForecast: List<DailyForecastNetwork>
 )
 
 
 @Serializable
-data class CurrentForecast(
+data class CurrentForecastNetwork(
     @SerialName("dt") val dateTime: Long,
     val sunrise: Long,
     val sunset: Long,
@@ -28,32 +28,33 @@ data class CurrentForecast(
     val clouds: Double,
     @SerialName("wind_speed") val windSpeed: Double,
     @SerialName("wind_deg") val windDeg: Int,
-    @SerialName("weather") val weatherImage: List<WeatherImage>,
+    @SerialName("weather") val weatherImage: List<WeatherImageNetwork>,
 
     )
 
 @Serializable
-data class HourlyForecast(
+data class HourlyForecastNetwork(
     @SerialName("dt") val dateTime: Long,
     @SerialName("temp") val temperature: Float
 )
 
 @Serializable
-data class DailyForecast(
+data class DailyForecastNetwork(
     @SerialName("dt") val dateTime: Long,
-    @SerialName("temp") val temperature: Temperatures,
-    @SerialName("weather") val weatherImage: List<WeatherImage>,
+    @SerialName("temp") val temperature: TemperaturesNetwork,
+    @SerialName("weather") val weatherImage: List<WeatherImageNetwork>,
 )
 
 
 @Serializable
-data class Temperatures(
+data class TemperaturesNetwork(
     @SerialName("min") val minTemperature: Double,
     @SerialName("max") val maxTemperature: Double,
 
 )
 
 @Serializable
-data class WeatherImage(
-    val id: Int
+data class WeatherImageNetwork(
+    val id: Int,
+    val icon: String
 )

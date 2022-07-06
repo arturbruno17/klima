@@ -4,9 +4,10 @@ import android.app.Application
 import android.location.Address
 import android.location.Geocoder
 import androidx.lifecycle.*
-import com.posart.klima.data.remote.entities.WeatherForecast
 import com.posart.klima.repositories.WeatherRepository
 import com.posart.klima.ui.entities.LatLng
+import com.posart.klima.ui.entities.WeatherForecast
+import com.posart.klima.ui.entities.asModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,7 +32,11 @@ class WeatherViewModel(
                 val weatherForecast = weatherRepository.getWeatherForecast(lat, lon, excludedParts, unitSystem)
                 checkNotNull(weatherForecast)
                 weatherForecast.let {
-                    _response.postValue(WeatherForecastResponse.Success(it))
+                    var weatherForecastAsModel: WeatherForecast
+                    withContext(Dispatchers.Default) {
+                        weatherForecastAsModel = it.asModel(unitSystem)
+                        _response.postValue(WeatherForecastResponse.Success(weatherForecastAsModel))
+                    }
                 }
             } catch (e: Exception) {
                 _response.postValue(WeatherForecastResponse.Error)

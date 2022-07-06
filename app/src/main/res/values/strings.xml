@@ -3,7 +3,6 @@
     <string name="place">Lugar</string>
     <string name="place_description">Botão para pesquisar sobre a previsão do tempo em um determinado lugar</string>
     <string name="settings_description">Botão para acessar as configurações do aplicativo</string>
-    <string name="day_rain">Dia chuvoso</string>
     <string name="wind_speed">Vento</string>
     <string name="calendar_description">Botão para acessar a previsão dos próximos 7 dias</string>
     <string name="close_field">Fechar campo de texto</string>
@@ -24,4 +23,18 @@
     <string name="sunset">Pôr do sol</string>
     <string name="pressure">Pressão</string>
     <string name="clouds">Nuvens</string>
+    <string name="thunderstorm">Tempestade</string>
+    <string name="drizzle">Garoa</string>
+    <string name="rain">Chuva</string>
+    <string name="snow">Neve</string>
+    <string name="mist">Misto</string>
+    <string name="smoke">Fumaça</string>
+    <string name="haze">Neblina</string>
+    <string name="dust">Poeira</string>
+    <string name="fog">Neblina</string>
+    <string name="sand">Areia</string>
+    <string name="ash">Cinzas</string>
+    <string name="squall">Tempestade</string>
+    <string name="tornado">Tornado</string>
+    <string name="clear">Limpo</string>
 </resources>
