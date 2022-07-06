@@ -8,8 +8,11 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class WeatherServiceImpl(
+@Singleton
+class WeatherServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : WeatherService {
 

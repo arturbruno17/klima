@@ -8,13 +8,16 @@ import com.posart.klima.repositories.WeatherRepository
 import com.posart.klima.ui.entities.LatLng
 import com.posart.klima.ui.entities.WeatherForecast
 import com.posart.klima.ui.entities.asModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class WeatherViewModel(
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
     application: Application,
-    private val weatherRepository: WeatherRepository = WeatherRepository()
+    private val weatherRepository: WeatherRepository
 ): AndroidViewModel(application) {
 
     private var _response = MutableLiveData<WeatherForecastResponse>(WeatherForecastResponse.Loading)

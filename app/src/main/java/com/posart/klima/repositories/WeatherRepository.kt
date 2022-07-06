@@ -3,9 +3,12 @@ package com.posart.klima.repositories
 import com.posart.klima.data.remote.WeatherService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class WeatherRepository(
-    private val weatherService: WeatherService = WeatherService.create()
+@Singleton
+class WeatherRepository @Inject constructor(
+    private val weatherService: WeatherService
 ) {
 
     suspend fun getWeatherForecast(lat: Double, lon: Double, excludedParts: String, unitSystem: String) =
