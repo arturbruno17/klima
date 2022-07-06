@@ -3,7 +3,12 @@ buildscript {
         compose_version = '1.2.0-rc02'
         ktor_version = '2.0.3'
     }
+
+    dependencies {
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+    }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 plugins {
     id 'com.android.application' version '7.2.0' apply false
     id 'com.android.library' version '7.2.0' apply false
