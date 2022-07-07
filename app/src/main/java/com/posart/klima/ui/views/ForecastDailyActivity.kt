@@ -124,7 +124,7 @@ class ForecastDailyActivity : ComponentActivity() {
             Image(
                 modifier = Modifier
                     .padding(end = dimensionResource(id = R.dimen.small))
-                    .width(48.dp),
+                    .size(48.dp),
                 painter = painterResource(image),
                 contentDescription = ""
             )
