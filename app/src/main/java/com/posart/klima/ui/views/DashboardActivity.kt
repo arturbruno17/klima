@@ -279,17 +279,37 @@ class DashboardActivity : ComponentActivity() {
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                IconButton(onClick = {
-                    startActivity(
-                        Intent(this@DashboardActivity, ForecastDailyActivity::class.java)
-                    )
-                }) {
-                    Icon(
-                        imageVector = Icons.Filled.CalendarMonth,
-                        contentDescription = stringResource(R.string.calendar_description),
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
+
+                val dailyForecast by viewModel.response.observeAsState()
+                val dailyForecastIconVisible =
+                    dailyForecast is WeatherViewModel.WeatherForecastResponse.Success
+                AnimatedVisibility(visible = dailyForecastIconVisible) {
+                    IconButton(onClick = {
+                        val intent = Intent(
+                            this@DashboardActivity,
+                            ForecastDailyActivity::class.java
+                        ).apply {
+                            putExtra(
+                                "dailyForecast",
+                                (dailyForecast as WeatherViewModel.WeatherForecastResponse.Success)
+                                    .weatherForecast.dailyForecast.toTypedArray()
+                            )
+                            putExtra(
+                                "temperatureUnit",
+                                (dailyForecast as WeatherViewModel.WeatherForecastResponse.Success)
+                                    .weatherForecast.temperatureUnit
+                            )
+                        }
+                        startActivity(intent)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.CalendarMonth,
+                            contentDescription = stringResource(R.string.calendar_description),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
+
             }
         )
     }

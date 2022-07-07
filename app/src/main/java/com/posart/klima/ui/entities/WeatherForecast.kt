@@ -1,5 +1,6 @@
 package com.posart.klima.ui.entities
 
+import android.os.Parcelable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.posart.klima.R
@@ -8,6 +9,7 @@ import com.posart.klima.data.remote.entities.*
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.parcelize.Parcelize
 import kotlin.math.roundToInt
 
 data class WeatherForecast(
@@ -38,23 +40,25 @@ data class HourlyForecast(
     val temperature: Int
 )
 
+@Parcelize
 data class DailyForecast(
     val dateTime: String,
     val temperature: Temperatures,
     val weatherImage: List<WeatherImage>
-)
+) : Parcelable
 
-
+@Parcelize
 data class Temperatures(
     val minTemperature: Int,
     val maxTemperature: Int,
-)
+) : Parcelable
 
+@Parcelize
 data class WeatherImage(
     val id: Int,
     @DrawableRes val icon: Int,
     @StringRes val title: Int
-)
+) : Parcelable
 
 fun WeatherForecastNetwork.asModel(unitSystem: String): WeatherForecast {
     return WeatherForecast(
@@ -165,15 +169,19 @@ fun TemperaturesNetwork.asModel(): Temperatures {
 
 fun fromUnixDateTimeToFormattedTime(unixDateTime: Long): String {
     val dateTime = Instant.fromEpochSeconds(unixDateTime).toLocalDateTime(TimeZone.UTC)
-    return "${dateTime.hour}:${dateTime.minute}"
+    return "${formatNumberToTwoDigits(dateTime.hour)}:${formatNumberToTwoDigits(dateTime.minute)}"
 }
 
 fun fromUnixDateTimeToFormattedHour(unixDateTime: Long): String {
     val dateTime = Instant.fromEpochSeconds(unixDateTime).toLocalDateTime(TimeZone.UTC)
-    return "${dateTime.hour}h"
+    return "${formatNumberToTwoDigits(dateTime.hour)}h"
 }
 
 fun fromUnixDateTimeToFormattedDayAndMonth(unixDateTime: Long): String {
     val dateTime = Instant.fromEpochSeconds(unixDateTime).toLocalDateTime(TimeZone.UTC)
-    return "${dateTime.dayOfMonth}/${dateTime.monthNumber}"
+    return "${formatNumberToTwoDigits(dateTime.dayOfMonth)}/${formatNumberToTwoDigits(dateTime.monthNumber)}"
+}
+
+fun formatNumberToTwoDigits(number: Int): String {
+    return if (number < 10) "0$number" else number.toString()
 }
