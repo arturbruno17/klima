@@ -18,38 +18,44 @@
  <a href="#-contribuição">Contribuição</a>
 </p>
 
+# 📱 Build
+
+Você irá precisar da APIKEY válida para rodar esse projeto, você pode pegar a sua em:
+
+- Caso já possua login na openweather [PEGUE_SUA_KEY](https://home.openweathermap.org/api_keys)
+- Caso ainda não tenha uma conta crie a sua: [Crie Sua Conta](https://home.openweathermap.org/users/sign_up)
+
+Você precisará adicionar ao arquivo gerado pela IDE `local.properties` a seguinte informação.
+
+```markdown
+OPENWEATHER_API_KEY=SUA_KEY
+```
+
 # 📜 Sobre
 
-Aplicativo de previsões climáticas feito com Android nativo. Possui uma tela de dashboard onde é
-possível pesquisar por um local e receber previsões climáticas sobre o clima atual e das próximas
-horas. Também possui uma tela de calendário, onde mostra a previsão climática dos próximos 7 dias e
-só é liberada depois que você faz a pesquisa. Além disso, você pode alterar, nas configurações, o
-sistema de unidade usado nas medidas, podendo escolher entre métrico (°C e m/s) e imperial (°F e
-mph).
+Aplicativo de previsões climáticas feito com Android nativo. Possui uma tela de dashboard onde é possível pesquisar por um local e receber previsões
+climáticas sobre o clima atual e das próximas horas. Também possui uma tela de calendário, onde mostra a previsão climática dos próximos 7 dias e só é
+liberada depois que você faz a pesquisa. Além disso, você pode alterar, nas configurações, o sistema de unidade usado nas medidas, podendo escolher
+entre métrico (°C e m/s) e imperial (°F e mph).
 
-* **Jetpack Compose**: O Jetpack Compose é um kit de ferramentas moderno do Android para criar IUs
-  nativas. Ele simplifica e acelera o desenvolvimento da IU no Android.
+* **Jetpack Compose**: O Jetpack Compose é um kit de ferramentas moderno do Android para criar IUs nativas. Ele simplifica e acelera o desenvolvimento
+  da IU no Android.
 
-* **Ktor Client**: O Ktor inclui um cliente HTTP assíncrono multiplataforma, que permite fazer
-  solicitações e lidar com respostas, estender sua funcionalidade com plugins, como autenticação,
-  serialização JSON e assim por diante.
+* **Ktor Client**: O Ktor inclui um cliente HTTP assíncrono multiplataforma, que permite fazer solicitações e lidar com respostas, estender sua
+  funcionalidade com plugins, como autenticação, serialização JSON e assim por diante.
 
-* **kotlinx-serialization**: O kotlinx-serialization consiste em um plug-in do compilador, que gera
-  código para classes serializáveis, biblioteca de tempo de execução com API de serialização central
-  e bibliotecas de suporte com vários formatos de serialização. No caso do aplicativo, foi usado
+* **kotlinx-serialization**: O kotlinx-serialization consiste em um plug-in do compilador, que gera código para classes serializáveis, biblioteca de
+  tempo de execução com API de serialização central e bibliotecas de suporte com vários formatos de serialização. No caso do aplicativo, foi usado
   apenas o **kotlinx-serialization-json**.
 
-* **Jetpack DataStore**: uma solução de armazenamento de dados que permite armazenar pares de
-  chave-valor ou objetos tipados com buffers de protocolo. O DataStore usa corrotinas e fluxo do
-  Kotlin para armazenar dados de forma assíncrona, consistente e transacional.
+* **Jetpack DataStore**: uma solução de armazenamento de dados que permite armazenar pares de chave-valor ou objetos tipados com buffers de protocolo.
+  O DataStore usa corrotinas e fluxo do Kotlin para armazenar dados de forma assíncrona, consistente e transacional.
 
 * **kotlinx-datetime**: Uma biblioteca Kotlin multiplataforma para trabalhar com data e hora.
 
-* **Hilt**: O Hilt fornece uma maneira padrão de incorporar a injeção de dependência do Dagger em um
-  aplicativo Android.
+* **Hilt**: O Hilt fornece uma maneira padrão de incorporar a injeção de dependência do Dagger em um aplicativo Android.
 
-* **Material 3**: A versão mais recente do Material Design inclui recursos de personalização e
-  acessibilidade que colocam as pessoas no centro.
+* **Material 3**: A versão mais recente do Material Design inclui recursos de personalização e acessibilidade que colocam as pessoas no centro.
 
 # 📱 Screenshots
 
@@ -61,8 +67,7 @@ mph).
 
 # 📚 Bibliografia
 
-Nesta seção, você encontrará vários links e recursos que falam acerca das bibliotecas e extras
-utilizados no projeto.
+Nesta seção, você encontrará vários links e recursos que falam acerca das bibliotecas e extras utilizados no projeto.
 
 |  Biblioteca   |  Link    |
 |---	|---	|
@@ -76,8 +81,8 @@ utilizados no projeto.
 
 # 🤝 Contribuição
 
-O app foi criado e testado em um dispositivo físico, Redmi Note 9s, e em dois emuladores, um com API
-28 e o outro com API 31, mas é disponível para qualquer um que queira contribuir.
+O app foi criado e testado em um dispositivo físico, Redmi Note 9s, e em dois emuladores, um com API 28 e o outro com API 31, mas é disponível para
+qualquer um que queira contribuir.
 
 Caso tenha alguma ideia de como melhorar o app, realize os seguintes passos:
 
